@@ -2,3 +2,8 @@ arantes:
   client:
     address:
       url: http://localhost:8082/addresses
+
+spring:
+  data:
+    mongodb:
+      uri: monbodb://localhost:270717/hexagonal
