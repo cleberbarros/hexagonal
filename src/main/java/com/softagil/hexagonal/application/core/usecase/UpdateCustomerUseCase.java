@@ -2,10 +2,11 @@ package com.softagil.hexagonal.application.core.usecase;
 
 import com.softagil.hexagonal.application.core.domain.Customer;
 import com.softagil.hexagonal.application.ports.in.FindCustomerByIdInputPort;
+import com.softagil.hexagonal.application.ports.in.UpdateCustomerInputPort;
 import com.softagil.hexagonal.application.ports.out.FindAddressByZipCodeOutputPort;
 import com.softagil.hexagonal.application.ports.out.UpdateCustomerOutputPort;
 
-public class UpdateCustomerUseCase {
+public class UpdateCustomerUseCase implements UpdateCustomerInputPort {
 
     private final FindCustomerByIdInputPort findCustomerByIdInputPort;
 
@@ -21,6 +22,7 @@ public class UpdateCustomerUseCase {
         this.updateCustomerOutputPort = updateCustomerOutputPort;
     }
 
+    @Override
     public void update(Customer customer, String zipCode){
         this.findCustomerByIdInputPort.find(customer.getId());
         var address = findAddressByZipCodeOutputPort.find(zipCode);

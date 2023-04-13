@@ -3,13 +3,16 @@ package com.softagil.hexagonal.adapters.in.controller;
 import com.softagil.hexagonal.adapters.in.controller.mapper.CustomerMapper;
 import com.softagil.hexagonal.adapters.in.controller.request.CustomerRequest;
 import com.softagil.hexagonal.adapters.in.controller.response.CustomerResponse;
+import com.softagil.hexagonal.application.core.domain.Customer;
 import com.softagil.hexagonal.application.ports.in.FindCustomerByIdInputPort;
 import com.softagil.hexagonal.application.ports.in.InsertCustomerInputPort;
+import com.softagil.hexagonal.application.ports.in.UpdateCustomerInputPort;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -29,6 +32,9 @@ public class CustomerController {
     @Autowired
     private FindCustomerByIdInputPort findCustomerByIdInputPort;
 
+    @Autowired
+    private UpdateCustomerInputPort updateCustomerInputPort;
+
     @PostMapping
     public ResponseEntity<Void> insert(@RequestBody @Valid CustomerRequest customerRequest){
         var customer = customerMapper.toCustomer(customerRequest);
@@ -43,5 +49,14 @@ public class CustomerController {
         var customerResponse = customerMapper.toCustomerResponse(customer);
 
         return ResponseEntity.ok().body(customerResponse);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Void> update(@PathVariable final String id, @Valid CustomerRequest customerRequest) {
+            Customer customer = customerMapper.toCustomer(customerRequest);
+            customer.setId(id);
+            updateCustomerInputPort.update(customer, customerRequest.getZipCode());
+
+            return ResponseEntity.noContent().build();
     }
 }
