@@ -1,9 +1,10 @@
 package com.softagil.hexagonal.application.core.usecase;
 
+import com.softagil.hexagonal.application.ports.in.DeleteCustomerByIdInputPort;
 import com.softagil.hexagonal.application.ports.in.FindCustomerByIdInputPort;
 import com.softagil.hexagonal.application.ports.out.DeleteCustomerByIdOutputPort;
 
-public class DeleteCustomerByIdUseCase implements DeleteCustomerByIdOutputPort{
+public class DeleteCustomerByIdUseCase implements DeleteCustomerByIdInputPort {
 
 
     private final FindCustomerByIdInputPort findCustomerByIdInputPort;
